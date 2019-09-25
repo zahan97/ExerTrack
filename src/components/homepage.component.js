@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import DatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
+
 
 export default class Homepage extends Component {
     constructor(props) {
@@ -12,10 +11,13 @@ export default class Homepage extends Component {
         this.onChangeUsername = this.onChangeUsername.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
         this.onChangeGender = this.onChangeGender.bind(this);
+        this.onChangeNewU = this.onChangeNewU.bind(this);
+        this.onChangeNewP = this.onChangeNewP.bind(this);
         this.onChangeAge = this.onChangeAge.bind(this);
         this.onChangeWeight = this.onChangeWeight.bind(this);
         this.onChangeHeight = this.onChangeHeight.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.onSubmit2 = this.onSubmit2.bind(this);
     
         this.state = {
           fname: '',
@@ -26,6 +28,10 @@ export default class Homepage extends Component {
           age: '',
           weight: '',
           height: '',
+          users: [],
+          pwords: [],
+          newu: '',
+          newp: ''
         }
     }
 
@@ -45,6 +51,17 @@ export default class Homepage extends Component {
           username: e.target.value
         })
       }
+      onChangeNewU(e) {
+        this.setState({
+          newu: e.target.value
+        })
+      }
+      onChangeNewP(e) {
+        this.setState({
+          newp: e.target.value
+        })
+      }
+     
     
     onChangePassword(e) {
     this.setState({
@@ -76,6 +93,43 @@ export default class Homepage extends Component {
         })
     }
 
+    componentDidMount() {
+        axios.get('http://localhost:5000/users/')
+        .then(response => {
+        if (response.data.length > 0) {
+          this.setState({
+            users: response.data.map(user => user.username),
+            pwords: response.data.map(user => user.password),
+          })
+        }
+        })
+        .catch((error) => {
+            console.log(error);
+      })
+    }
+    onSubmit2(e) {
+        e.preventDefault();
+    
+        var flagy = 0;
+        for (let i = 0; i < this.state.users.length; i++) {
+            if(this.state.users[i] === this.state.newu && this.state.pwords[i] === this.state.newp){
+                flagy = 1;
+            
+            }
+        }
+        if(flagy === 1)
+        {
+            console.log("Auth Ok");
+            window.location = '/main';
+            
+            //this.props.history.push({pathname: '/main', data: this.state.newu})
+        }
+        else{
+            alert("Enter Valid details");
+        }
+        
+      }
+
     onSubmit(e) {
         e.preventDefault();
     
@@ -94,35 +148,62 @@ export default class Homepage extends Component {
     
         axios.post('http://localhost:5000/users/add', user)
           .then(res => console.log(res.data));
-    
-        //window.location = '/';
+        
+        window.location = '/contact';
       }
 
     render(){
         return(
+            <div>
+            
+            <nav className="navbar navbar-dark bg-dark navbar-expand-lg">
+            <h1 className="navbar-brand mb-0 h1">ExerTrack</h1>
+                <form className="form-inline" onSubmit={this.onSubmit2}>
+                    <input className="form-control mr-sm-2" type="input"  placeholder="Username"
+                    required value={this.state.newu} onChange={this.onChangeNewU}/>
+                    <input className="form-control mr-sm-2" type="password" placeholder="Password" required
+                    value={this.state.newp} onChange={this.onChangeNewP}/>
+                    <button className="btn btn-primary" type="submit">Log In
+                    </button>
+                </form>
+            </nav>
+            
             <div className="container">
-                <h1>Welcome to ExerTrack!</h1>
+                <div className="row">
+                <div className="col-md">
+                <h1>&nbsp;&nbsp;</h1>
+                
+                <h1 className="font-weight-bold">DON'T WISH FOR A GOOD BODY, WORK FOR IT!!</h1>
+                </div>
+                <div className="col">
+                
                 <h2>Create Your Account</h2>
                 <form onSubmit={this.onSubmit}>
-                    <div className="form-group"> 
-                        <label>Your Name: </label>
-                        <input  type="text"
-                            required
-                            className="form-control"
-                            value={this.state.fname}
-                            onChange={this.onChangefname}
-                        />
+                    <div className="form-group">
+                        <div className="form-row">
+                            <div className="col-sm-20"> 
+                                <label>Your Name: </label>
+                                <input  type="text"
+                                    required
+                                    className="form-control"
+                                    value={this.state.fname}
+                                    onChange={this.onChangefname}
+                                />
+                            </div>
+                            <div className="col-sm-20">
+                                <label>Your Lastname: </label>
+                                <input  type="text"
+                                    required
+                                    className="form-control"
+                                    value={this.state.lname}
+                                    onChange={this.onChangelname}
+                                />
+                            </div>
+                        </div>
                     </div>
-                    <div className="form-group"> 
-                        <label>Your Lastname: </label>
-                        <input  type="text"
-                            required
-                            className="form-control"
-                            value={this.state.lname}
-                            onChange={this.onChangelname}
-                        />
-                    </div>
-                    <div className="form-group"> 
+                    <div className="form-group">
+                        <div className="form-row">
+                        <div className="col-sm-20"> 
                         <label>Create a Unique Username: </label>
                         <input  type="text"
                             required
@@ -130,16 +211,16 @@ export default class Homepage extends Component {
                             value={this.state.username}
                             onChange={this.onChangeUsername}
                         />
-                    </div>
-                    <div className="form-group"> 
-                        <label>Password: </label>
+                        </div>
+                    <div className="col-sm-20">
+                        <label>Create Password: </label>
                         <input  type="password"
                             required
                             className="form-control"
                             value={this.state.password}
                             onChange={this.onChangePassword}
                         />
-                    </div>
+                    </div></div></div>
                     <div className="form-group"> 
                         <label>Gender: </label>
                         <div></div>
@@ -160,7 +241,10 @@ export default class Homepage extends Component {
                             onChange={this.onChangeGender}
                         /> Female
                     </div>
+                    
                     <div className="form-group"> 
+                    <div className="form-row">
+                        <div className="col-sm-30">
                         <label>Age: </label>
                         <input  type="text"
                             required
@@ -168,30 +252,43 @@ export default class Homepage extends Component {
                             value={this.state.age}
                             onChange={this.onChangeAge}
                         />
-                    </div>
-                    <div className="form-group"> 
-                        <label>Approximate Weight(in lb): </label>
+                        </div>
+                        <div className="col-sm-10"></div>
+                        <div className="col-sm-30">
+                        <label>Weight (in lb): </label>
                         <input  type="text"
                             required
                             className="form-control"
                             value={this.state.weight}
                             onChange={this.onChangeWeight}
                         />
-                    </div>
-                    <div className="form-group"> 
-                        <label>Approximate Height(in cm): </label>
+                        </div>
+                        <div className="col-sm-10"></div>
+                        <div className="col-sm-30">
+                        <label>Height (in cm): </label>
                         <input  type="text"
                             required
                             className="form-control"
                             value={this.state.height}
                             onChange={this.onChangeHeight}
-                        />
-                    </div>
+                        /></div>
+                        </div>
+                        </div>
                     <div className="form-group">
-                        <input type="submit" value="Create User" className="btn btn-primary" />
+                        <input type="submit" value="Create Account" className="btn btn-primary" />
                     </div>
                 </form>
-            </div>   
+            </div> 
+            </div>
+            </div>  
+            
+            <footer className="page-footer font-small blue">
+            <div className="footer-copyright text-center py-3"><span>© 2019 Copyright: </span>
+            <a href="https://www.linkedin.com/in/zahan97/">Zahan Shahana</a>
+            </div>
+            </footer>
+
+            </div>
         )
     }
 }
