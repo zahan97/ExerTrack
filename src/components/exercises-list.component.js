@@ -83,11 +83,16 @@ export default class ExercisesList extends Component {
         <div>
         <nav className="navbar navbar-dark bg-dark navbar-expand-lg">
         <h1 className="navbar-brand mb-0 h1">ExerTrack</h1>
+        <ul className="navbar-nav mr-auto">
+          <li className="navbar-item">
+          <Link to="/similar" className="nav-link">Find Similar Profiles</Link>
+          </li>
+          </ul>
         </nav>
         </div>
         <div className="container">
           
-          <h1> </h1>
+          <h1></h1> 
           <div>
               <form className="form-inline" onSubmit={this.onSubmit}>
                   <div className="row">
@@ -114,9 +119,9 @@ export default class ExercisesList extends Component {
             { this.exerciseList() }
           </tbody>
         </table>
-        
+        <hr />  
       </div>
-      <h1></h1>
+      
       <CreateExercise username = {this.state.username}/>
       
       </div>

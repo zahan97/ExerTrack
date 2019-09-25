@@ -8,15 +8,16 @@ import CreateExercise from "./components/create-exercise.component";
 import CreateUser from "./components/create-user.component";
 import Homepage from "./components/homepage.component";
 import cf from "./components/contactform.component";
+import similar from "./components/profile.component"
 
-function App() {
+function App() { 
   return (
     <Router>
       <div>
       <Route path="/" exact component={Homepage} />
       <Route path="/contact" exact component={cf} />
       
-    
+      <Route path="/similar" exact component={similar} />
       <Route path="/main" exact component={ExercisesList} />
       <Route path="/edit/:id" component={EditExercise} />
       <Route path="/create" component={CreateExercise} />
