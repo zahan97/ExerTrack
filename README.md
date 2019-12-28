@@ -11,7 +11,7 @@ Bootstrap<br/><br/>
 ***Database-<br/>***
 MongooseJS (NoSQL)<br/>
 MongoDB<br/>
-## Snapsohots-<br/><br/>
+## Snapshots-<br/><br/>
 ![Snapshot](public/Snapshots/Pg1.JPG)<br/>
 ![Snapshot2](public/Snapshots/pg2.JPG)<br/>
 ![Snapshot3](public/Snapshots/pg3.JPG)<br/>
