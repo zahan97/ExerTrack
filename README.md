@@ -3,10 +3,10 @@
 JavaScript<br/>
 JSX<br/><br/>
 ***Server-<br/>***
-Node.js<br/><br/>
+Node.js<br/>
+ExpressJS<br/><br/>
 ***Frontend-<br/>***
 ReactJS<br/>
-ExpressJS<br/>
 Bootstrap<br/><br/>
 ***Database-<br/>***
 MongooseJS (NoSQL)<br/>
